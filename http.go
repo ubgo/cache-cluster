@@ -1,3 +1,18 @@
+// http.go — the peer-facing HTTP handler / wire protocol (package clustercache, github.com/ubgo/cache-cluster).
+//
+// Package role: clustercache is the peer-aware distribution layer of the
+// ubgo/cache family. See ring.go for the canonical package doc.
+//
+// This file: Node.Handler(), the http.Handler peers reach this node
+// through. It is the server side of cluster.go's remote() client.
+//
+// AI-context: the frozen peer protocol — all routes on
+// /_cache?key=<key>: GET → value(200) | 404 (absent / no loader),
+// PUT → store request body (204), DELETE → delete (204), other →
+// 405/400. A proxied GET deliberately calls localGetOrLoad (not a bare
+// local Get), so the owner's loader and its single-flight run here too —
+// that is what makes peer-driven fill collapse to one loader call.
+
 package clustercache
 
 import (

@@ -1,3 +1,24 @@
+// ring.go — consistent-hash ring with virtual nodes (package clustercache, github.com/ubgo/cache-cluster).
+//
+// Package role: clustercache is the peer-aware distribution layer of the
+// ubgo/cache family — it wraps any cache.Cache backend so a key is owned
+// by exactly one node, filled once there, and proxied from peers over
+// HTTP (the groupcache pattern with the ubgo/cache interface). This file
+// also carries the canonical `// Package clustercache ...` godoc comment
+// below — do not duplicate that package doc in cluster.go or http.go.
+//
+// This file: the Ring type and Owner/Add/Remove/Peers. replicas virtual
+// points per peer (default 64) smooth the keyspace split; points is kept
+// sorted so Owner is a sort.Search binary search, wrapping index N back
+// to 0 (the ring is circular). RWMutex: Owner/Peers read-lock,
+// Add/Remove write-lock.
+//
+// AI-context: the load-bearing property is no-rebalance-on-remove —
+// removing a peer only moves keys whose nearest clockwise point belonged
+// to that peer (they slide to the next surviving point); every other
+// key keeps its owner. Remove reuses points[:0] to filter in place.
+// hashKey is CRC32-IEEE: fast, well-spread, deliberately NOT cryptographic.
+
 // Package clustercache adds peer-aware distribution on top of any
 // github.com/ubgo/cache backend: a consistent-hash ring decides which node
 // owns a key, the owner fills it once (single-flight) via a user loader, and

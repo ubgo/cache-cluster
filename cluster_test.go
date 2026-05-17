@@ -1,3 +1,5 @@
+// cluster_test.go — tests for ring ownership, owner routing, HTTP peer fill, and single-flight dedup.
+
 package clustercache_test
 
 import (

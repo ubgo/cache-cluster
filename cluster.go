@@ -1,3 +1,22 @@
+// cluster.go — the Node: owner routing + single-flight read-through fill (package clustercache, github.com/ubgo/cache-cluster).
+//
+// Package role: clustercache is the peer-aware distribution layer of the
+// ubgo/cache family. See ring.go for the canonical package doc.
+//
+// This file: the Node type, its WithX options, the Get/Set/Del/Has
+// surface, localGetOrLoad, the remote() HTTP proxy, and the local
+// flightGroup single-flight. self is added to the ring in New so a
+// single-node cluster owns every key before any WithPeers call.
+//
+// AI-context: routing invariant — every op resolves ring.Owner(key);
+// owned keys hit the local cache.Cache, non-owned keys are proxied to the
+// owner's base URL via remote() (200=value, 204=ok, 404=ErrNotFound,
+// else error). The Loader runs ONLY at a key's owner and is wrapped in
+// single-flight (with a re-check inside the flight slot), so a hot key is
+// loaded exactly once cluster-wide no matter how many nodes/goroutines
+// ask. flightGroup de-dups concurrent calls only — it is not a cache;
+// the entry is deleted after fn returns so a later call re-runs fn.
+
 package clustercache
 
 import (
