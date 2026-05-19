@@ -1,5 +1,7 @@
 # cache-cluster
 
+![coverage](https://img.shields.io/badge/coverage-99%25-brightgreen)
+
 Distributed peer-aware cache for Go: consistent hashing, groupcache-style.
 
 `cache-cluster` adds peer-aware distribution on top of any [`github.com/ubgo/cache`](https://github.com/ubgo/cache) backend. A **consistent-hash ring** with virtual nodes deterministically assigns every key to one owning node; reads for keys you do not own are proxied over **HTTP** to their owner; the owner fills a miss exactly once via your loader, deduped by **single-flight**. This is the groupcache pattern expressed through the ubgo/cache interface — a hot key is loaded once cluster-wide, not once per node and not once per concurrent request.

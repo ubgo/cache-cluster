@@ -82,6 +82,12 @@ tasks:
       - 'git tag "$(sh scripts/nextver.sh major)"'
       - 'echo "tagged $(git describe --tags --abbrev=0). Push with: git push origin --tags"'
 
+  cover:
+    desc: Run tests with coverage and print the total
+    cmds:
+      - go test -coverprofile=cover.out -covermode=atomic ./...
+      - go tool cover -func=cover.out | tail -1
+
   check:
     desc: Full local gate (fmt + vet + race tests)
     cmds:
