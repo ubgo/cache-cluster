@@ -1,6 +1,8 @@
 # cache-cluster
 
-![coverage](https://img.shields.io/badge/coverage-99%25-brightgreen)
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/ubgo/cache-cluster.svg)](https://pkg.go.dev/github.com/ubgo/cache-cluster) [![Go Report Card](https://goreportcard.com/badge/github.com/ubgo/cache-cluster)](https://goreportcard.com/report/github.com/ubgo/cache-cluster) [![test](https://github.com/ubgo/cache-cluster/actions/workflows/test.yml/badge.svg)](https://github.com/ubgo/cache-cluster/actions/workflows/test.yml) [![lint](https://github.com/ubgo/cache-cluster/actions/workflows/lint.yml/badge.svg)](https://github.com/ubgo/cache-cluster/actions/workflows/lint.yml) ![coverage](https://img.shields.io/badge/coverage-99%25-brightgreen) [![tag](https://img.shields.io/github/v/tag/ubgo/cache-cluster?sort=semver)](https://github.com/ubgo/cache-cluster/tags) [![license](https://img.shields.io/badge/license-source--available-blue)](./LICENSE) ![Go](https://img.shields.io/badge/go-1.24-00ADD8?logo=go)
+
 
 Distributed peer-aware cache for Go: consistent hashing, groupcache-style.
 
