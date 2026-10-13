@@ -5,6 +5,10 @@ Format follows Keep a Changelog; the project follows SemVer (pre-GA in `v0.x`).
 
 ## [Unreleased]
 
+### Changed
+
+- Licensed under Apache-2.0. The previous LICENSE file was a source-available text copied from another project by mistake.
+
 ### Added
 
 - Consistent-hash `Ring` (virtual nodes; minimal reshuffle on membership
